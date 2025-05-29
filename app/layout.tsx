@@ -6,9 +6,10 @@ import { ModalProvider } from '@/providers/modal-provider';
 import { ToasterProvider } from '@/providers/toast-provider';
 
 import './globals.css';
-import { ThemeProvider } from '@/providers/theme-provider';
+import dynamic from 'next/dynamic';
 
 const inter = Inter({ subsets: ['latin'] });
+const LazyThemeProvider = dynamic(() => import('@/providers/theme-provider'), { ssr: false })
 
 export const metadata: Metadata = {
 	title: 'Admin Dashboard',
@@ -24,10 +25,11 @@ export default function RootLayout({
 		<ClerkProvider>
 			<html lang="en">
 				<body className={inter.className}>
-					<ThemeProvider attribute="class" defaultTheme="system" enableSystem />
+					<LazyThemeProvider attribute="class" defaultTheme="system" enableSystem >
+						{children}
+					</LazyThemeProvider	>
 					<ModalProvider />
 					<ToasterProvider />
-					{children}
 				</body>
 			</html>
 		</ClerkProvider>
