@@ -11,6 +11,9 @@ export default async function DashboardLayout({
 	children: React.ReactNode;
 	params: { storeId: string };
 }) {
+	// to fix weird render on some Brave's enabled extensions, where it render this layout on route of Clerk's /sign-in 
+	if (params.storeId === 'sw.js') return null
+
 	const { userId } = auth();
 
 	if (!userId) {
